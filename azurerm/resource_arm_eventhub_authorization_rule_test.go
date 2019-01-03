@@ -126,12 +126,12 @@ func testCheckAzureRMEventHubAuthorizationRuleDestroy(s *terraform.State) error 
 	return nil
 }
 
-func testCheckAzureRMEventHubAuthorizationRuleExists(name string) resource.TestCheckFunc {
+func testCheckAzureRMEventHubAuthorizationRuleExists(resourceName string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		// Ensure we have enough information in state to look up in API
-		rs, ok := s.RootModule().Resources[name]
+		rs, ok := s.RootModule().Resources[resourceName]
 		if !ok {
-			return fmt.Errorf("Not found: %s", name)
+			return fmt.Errorf("Not found: %s", resourceName)
 		}
 
 		name := rs.Primary.Attributes["name"]
@@ -169,7 +169,7 @@ resource "azurerm_eventhub_namespace" "test" {
   location            = "${azurerm_resource_group.test.location}"
   resource_group_name = "${azurerm_resource_group.test.name}"
 
-  sku                 = "Standard"
+  sku = "Standard"
 }
 
 resource "azurerm_eventhub" "test" {
@@ -177,8 +177,8 @@ resource "azurerm_eventhub" "test" {
   namespace_name      = "${azurerm_eventhub_namespace.test.name}"
   resource_group_name = "${azurerm_resource_group.test.name}"
 
-  partition_count     = 2
-  message_retention   = 1
+  partition_count   = 2
+  message_retention = 1
 }
 
 resource "azurerm_eventhub_authorization_rule" "test" {
@@ -187,9 +187,9 @@ resource "azurerm_eventhub_authorization_rule" "test" {
   eventhub_name       = "${azurerm_eventhub.test.name}"
   resource_group_name = "${azurerm_resource_group.test.name}"
 
-  listen              = %[3]t
-  send                = %[4]t
-  manage              = %[5]t
+  listen = %[3]t
+  send   = %[4]t
+  manage = %[5]t
 }
 `, rInt, location, listen, send, manage)
 }

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2018-04-01/network"
+	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2018-08-01/network"
 	"github.com/hashicorp/terraform/helper/acctest"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
@@ -238,11 +238,11 @@ func testAccAzureRMExpressRouteCircuit_allowClassicOperationsUpdate(t *testing.T
 	})
 }
 
-func testCheckAzureRMExpressRouteCircuitExists(name string, erc *network.ExpressRouteCircuit) resource.TestCheckFunc {
+func testCheckAzureRMExpressRouteCircuitExists(resourceName string, erc *network.ExpressRouteCircuit) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
+		rs, ok := s.RootModule().Resources[resourceName]
 		if !ok {
-			return fmt.Errorf("Not found: %s", name)
+			return fmt.Errorf("Not found: %s", resourceName)
 		}
 
 		expressRouteCircuitName := rs.Primary.Attributes["name"]

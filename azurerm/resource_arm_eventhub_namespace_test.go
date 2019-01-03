@@ -315,12 +315,12 @@ func testCheckAzureRMEventHubNamespaceDestroy(s *terraform.State) error {
 	return nil
 }
 
-func testCheckAzureRMEventHubNamespaceExists(name string) resource.TestCheckFunc {
+func testCheckAzureRMEventHubNamespaceExists(resourceName string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		// Ensure we have enough information in state to look up in API
-		rs, ok := s.RootModule().Resources[name]
+		rs, ok := s.RootModule().Resources[resourceName]
 		if !ok {
-			return fmt.Errorf("Not found: %s", name)
+			return fmt.Errorf("Not found: %s", resourceName)
 		}
 
 		namespaceName := rs.Primary.Attributes["name"]
@@ -435,18 +435,17 @@ resource "azurerm_eventhub_namespace" "test" {
 
 func testAccAzureRMEventHubNamespace_capacity(rInt int, location string, capacity int) string {
 	return fmt.Sprintf(`
-
 resource "azurerm_resource_group" "test" {
   name     = "acctestRG-%d"
   location = "%s"
 }
 
 resource "azurerm_eventhub_namespace" "test" {
-  name                     = "acctesteventhubnamespace-%d"
-  location                 = "${azurerm_resource_group.test.location}"
-  resource_group_name      = "${azurerm_resource_group.test.name}"
-  sku                      = "Basic"
-  capacity                 = %d
+  name                = "acctesteventhubnamespace-%d"
+  location            = "${azurerm_resource_group.test.location}"
+  resource_group_name = "${azurerm_resource_group.test.name}"
+  sku                 = "Basic"
+  capacity            = %d
 }
 `, rInt, location, rInt, capacity)
 }
